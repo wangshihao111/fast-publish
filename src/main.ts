@@ -24,19 +24,19 @@ const cwd = process.cwd();
  */
 export async function publish(arg: PublishArg) {
   const { tag = 'latest', package: pkg, version } = arg;
-  const pkgPath = path.resolve(pkg || cwd, 'package.json');
-  console.log(chalk.blueBright('Current version:'), require(pkgPath).version);
+  const pkgPath = pkg || cwd;
+  const pkgJsonPath = path.resolve(pkgPath, 'package.json');
+  console.log(chalk.blueBright('Current version:'), require(pkgJsonPath).version);
   let enterVersion: string = version;
   if (!enterVersion) {
     try {
-      const res = await inquirer
-        .prompt([
-          {
-            type: 'text',
-            message: 'Please enter version: ',
-            name: 'version',
-          },
-        ]);
+      const res = await inquirer.prompt([
+        {
+          type: 'text',
+          message: 'Please enter version: ',
+          name: 'version',
+        },
+      ]);
       enterVersion = res.version;
     } catch (e) {
       if (e) {
@@ -45,15 +45,15 @@ export async function publish(arg: PublishArg) {
     }
   }
   if (!enterVersion) {
-    console.log(chalk.red("Please enter a legal version number."));
+    console.log(chalk.red('Please enter a legal version number.'));
     process.exit(1);
   }
-  await runPublish({ version: enterVersion, distTag: tag })
+  await runPublish({ version: enterVersion, distTag: tag, pkg: pkgPath });
 }
 
-async function runPublish({ version, distTag }) {
+async function runPublish({ version, distTag, pkg = cwd }) {
   if (version) {
-    const pkgPath = path.resolve(__dirname, '../package.json');
+    const pkgPath = path.resolve(pkg, 'package.json');
     const content = JSON.parse(readFileSync(pkgPath, 'utf8'));
     content.version = version;
     const writeContent = prettier.format(JSON.stringify(content), { parser: 'json' });
@@ -71,7 +71,7 @@ async function runPublish({ version, distTag }) {
       await new Promise((resolve, reject) => {
         const child = spawn(script, {
           shell: true,
-          cwd: process.cwd(),
+          cwd: pkg,
           stdio: ['ignore', process.stdout, process.stderr],
         });
         child.on('error', (e) => {
@@ -80,9 +80,9 @@ async function runPublish({ version, distTag }) {
         child.on('exit', (code) => {
           if (code !== 0) {
             reject();
-            console.log(chalk.red(`Run command: ${script} failed.`));
+            console.log(chalk.red(`Run command: [${script}] failed.`));
           } else {
-            console.log(chalk.green(`Run command: ${script} successfully.`));
+            console.log(chalk.green(`Run command: [${script}] successfully.`));
             resolve(undefined);
           }
         });
