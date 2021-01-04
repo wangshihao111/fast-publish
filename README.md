@@ -1,0 +1,2 @@
+# fast-publish
+npm publish
