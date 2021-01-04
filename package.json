@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "A util to publish npm package conveniently.",
   "main": "./lib/index.js",
+  "license": "MIT",
   "scripts": {
     "prepublish": "tsc",
     "lint-staged": "lint-staged",
@@ -18,8 +19,7 @@
     "registry": "https://registry.npmjs.org",
     "access": "public"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "shihao wang<913003120@qq.com>",
   "bugs": { "url": "https://github.com/wangshihao111/fast-publish/issues" },
   "homepage": "https://github.com/wangshihao111/fast-publish#readme",
   "devDependencies": {
