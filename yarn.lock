@@ -204,7 +204,7 @@ color-name@~1.1.4:
   resolved "http://nexus.saas.hand-china.com/repository/hzero-npm-group/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha1-wqCah6y95pVD3m9j+jmVyCbFNqI=
 
-commander@*, commander@^6.2.0:
+commander@*, commander@^6.2.0, commander@^6.2.1:
   version "6.2.1"
   resolved "http://nexus.saas.hand-china.com/repository/hzero-npm-group/commander/-/commander-6.2.1.tgz#0792eb682dfbc325999bb2b84fddddba110ac73c"
   integrity sha1-B5LraC37wyWZm7K4T93duhEKxzw=
