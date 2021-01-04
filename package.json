@@ -8,7 +8,7 @@
     "lint-staged": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bin": { "fast-publish": "./bin/pub.js", "fpub": "./bin/pub.js" },
+  "bin": { "fast-publish": "bin/pub.js", "fpub": "bin/pub.js" },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wangshihao111/fast-publish.git"
