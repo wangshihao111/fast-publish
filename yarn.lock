@@ -123,11 +123,6 @@ callsites@^3.0.0:
   resolved "http://nexus.saas.hand-china.com/repository/hzero-npm-group/callsites/-/callsites-3.1.0.tgz#b3630abd8943432f54b3f0519238e33cd7df2f73"
   integrity sha1-s2MKvYlDQy9Us/BRkjjjPNffL3M=
 
-chakl@^0.0.1-security:
-  version "0.0.1-security"
-  resolved "http://nexus.saas.hand-china.com/repository/hzero-npm-group/chakl/-/chakl-0.0.1-security.tgz#2ded68211881b6cc08f638ffb99c706d9d8ec1bd"
-  integrity sha1-Le1oIRiBtswI9jj/uZxwbZ2Owb0=
-
 chalk@*, chalk@^4.0.0, chalk@^4.1.0:
   version "4.1.0"
   resolved "http://nexus.saas.hand-china.com/repository/hzero-npm-group/chalk/-/chalk-4.1.0.tgz#4e14870a618d9e2edd97dd8345fd9d9dc315646a"
