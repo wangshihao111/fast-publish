@@ -1,6 +1,6 @@
 {
   "name": "fast-publish",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A util to publish npm package conveniently.",
   "main": "./lib/index.js",
   "license": "MIT",
