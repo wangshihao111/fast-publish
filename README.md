@@ -19,11 +19,13 @@ yarn add global fast-publish
 - Using with cmd/bash
 
 ```bash
-# fast-publish
 fast-publish
 
 # Optionally, you can specify tag by using --dist-tag options. Example:
 fast-publish --dist-tag latest
+
+# Also, you can specify the version you want to publish by using --ver options. Example:
+fast-publish --ver 0.1.0
 ```
 
 - Using with nodejs
