@@ -21,9 +21,13 @@ export interface PublishArg {
 const cwd = process.cwd();
 
 function checkWorkingTree() {
-  if (git.isDirty()) {
-    console.log(chalk.yellow('Please commit your change of your current working tree firstly.'));
-    process.exit(1);
+  try {
+    if (git.isDirty()) {
+      console.log(chalk.yellow('Please commit your change of your current working tree firstly.'));
+      process.exit(1);
+    }
+  } catch (error) {
+    console.log(chalk.yellow('WARN: No GIT repository found in current cwd.'));
   }
 }
 
