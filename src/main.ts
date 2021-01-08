@@ -4,6 +4,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 import prettier from 'prettier';
 import chalk from 'chalk';
+import git from 'git-rev-sync';
 
 /**
  * tag: npm tag.
@@ -14,16 +15,27 @@ export interface PublishArg {
   tag?: string;
   package?: string;
   version?: string;
+  ignoreGit?: string;
 }
 
 const cwd = process.cwd();
+
+function checkWorkingTree() {
+  if (git.isDirty()) {
+    console.log(chalk.yellow('Please commit your change of your current working tree firstly.'));
+    process.exit(1);
+  }
+}
 
 /**
  * publish a package
  * @param arg { PublishArg }
  */
 export async function publish(arg: PublishArg) {
-  const { tag = 'latest', package: pkg, version } = arg;
+  const { tag = 'latest', package: pkg, version, ignoreGit } = arg;
+  if (!ignoreGit) {
+    checkWorkingTree();
+  }
   const pkgPath = pkg || cwd;
   const pkgJsonPath = path.resolve(pkgPath, 'package.json');
   console.log(chalk.blueBright('Current version:'), require(pkgJsonPath).version);
