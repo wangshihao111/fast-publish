@@ -40,6 +40,20 @@ Available options:
 - --help -h: Display help for command
 - --version -v: Output the version number
 
+### CONFIGURATION
+
+You can `fastPublish` to customize the publish behavior. eg:
+```json
+{
+  "fastPublish": {
+    "commitTpl": "Publish Version: ${VERSION}",
+    "gitTagTpl": "v${VERSION}",
+    "autoTag": false,
+    "pushGit": false
+  }
+}
+```
+
 ### Using with nodejs
 
 ```js

@@ -5,6 +5,7 @@ import path from 'path';
 import prettier from 'prettier';
 import chalk from 'chalk';
 import git from 'git-rev-sync';
+import { cwd, getConfig, renderTpl } from './util';
 
 /**
  * tag: npm tag.
@@ -17,8 +18,6 @@ export interface PublishArg {
   version?: string;
   ignoreGit?: string;
 }
-
-const cwd = process.cwd();
 
 function checkWorkingTree() {
   try {
@@ -68,6 +67,7 @@ export async function publish(arg: PublishArg) {
 }
 
 async function runPublish({ version, distTag, pkg = cwd }) {
+  const { pushGit, gitTagTpl, autoTag, commitTpl } = getConfig();
   if (version) {
     const pkgPath = path.resolve(pkg, 'package.json');
     const content = JSON.parse(readFileSync(pkgPath, 'utf8'));
@@ -77,11 +77,12 @@ async function runPublish({ version, distTag, pkg = cwd }) {
     const queue = [
       `npm publish --tag ${distTag}`,
       'git add .',
-      `git commit -m "Publish: ${version}"`,
-      'git push',
-      `git tag v${version}`,
-      'git push --tags',
-    ];
+      // `git commit -m "Publish: ${version}"`,
+      `git commit -m "${renderTpl(commitTpl, 'VERSION', version)}"`,
+      pushGit && 'git push',
+      autoTag && `git tag ${renderTpl(gitTagTpl, 'VERSION', version)}`,
+      autoTag && 'git push --tags',
+    ].filter(Boolean);
     for (let index = 0; index < queue.length; index++) {
       const script = queue[index];
       await new Promise((resolve, reject) => {

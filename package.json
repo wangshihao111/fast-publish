@@ -48,5 +48,11 @@
       "post-merge": "git submodule update",
       "post-checkout": "git submodule update"
     }
+  },
+  "fastPublish": {
+    "commitTpl": "Publish: ${VERSION}",
+    "gitTagTpl": "v${VERSION}",
+    "autoTag": false,
+    "pushGit": false
   }
 }
