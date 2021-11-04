@@ -26,6 +26,10 @@ export async function queryVersion(currentVersion: string) {
             name: `Custom Prerelease`,
             value: 'cp',
           },
+          {
+            name: 'Custom version',
+            value: 'cv',
+          },
         ],
       },
     ]);
@@ -42,6 +46,15 @@ export async function queryVersion(currentVersion: string) {
       enterVersion = input.version || defaultV;
       logger.info('Version to publish is:', enterVersion);
       process.exit();
+    } else if (res.type === 'cv') {
+      const r = await inquirer.prompt([
+        {
+          type: 'text',
+          message: `Please enter version: `,
+          name: 'version',
+        },
+      ]);
+      enterVersion = r.version;
     } else if (res.type) {
       enterVersion = res.type;
     } else {
