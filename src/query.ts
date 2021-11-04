@@ -45,7 +45,6 @@ export async function queryVersion(currentVersion: string) {
 
       enterVersion = input.version || defaultV;
       logger.info('Version to publish is:', enterVersion);
-      process.exit();
     } else if (res.type === 'cv') {
       const r = await inquirer.prompt([
         {
