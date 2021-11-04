@@ -18,6 +18,7 @@ export interface PublishArg {
   package?: string;
   version?: string;
   ignoreGit?: string;
+  fromPackage?: boolean;
 }
 
 /**
@@ -25,7 +26,7 @@ export interface PublishArg {
  * @param arg { PublishArg }
  */
 export async function publish(arg: PublishArg) {
-  const { tag = 'latest', package: pkg, version, ignoreGit } = arg;
+  const { tag = 'latest', package: pkg, version, ignoreGit, fromPackage } = arg;
   if (!ignoreGit) {
     checkWorkingTree();
   }
@@ -34,6 +35,9 @@ export async function publish(arg: PublishArg) {
   const currentVersion = require(pkgJsonPath).version;
   logger.info('Current version:', currentVersion);
   let enterVersion: string = version;
+  if (fromPackage) {
+    enterVersion = currentVersion;
+  }
   if (!enterVersion) {
     enterVersion = await queryVersion(currentVersion);
   }

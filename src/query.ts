@@ -44,7 +44,6 @@ export async function queryVersion(currentVersion: string) {
       ]);
 
       enterVersion = input.version || defaultV;
-      logger.info('Version to publish is:', enterVersion);
     } else if (res.type === 'cv') {
       const r = await inquirer.prompt([
         {
@@ -60,6 +59,7 @@ export async function queryVersion(currentVersion: string) {
       logger.error('Please select a version.');
       process.exit(1);
     }
+    logger.info('Version to publish is:', enterVersion);
     return enterVersion;
   } catch (e) {
     if (e) {
