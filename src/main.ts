@@ -1,11 +1,12 @@
 import { spawn } from 'child_process';
-import inquirer from 'inquirer';
 import { readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 import prettier from 'prettier';
 import chalk from 'chalk';
-import git from 'git-rev-sync';
-import { cwd, getConfig, renderTpl } from './util';
+
+import { cwd, getConfig, getNextVersion, logger, renderTpl } from './util';
+import { checkWorkingTree } from './util/git';
+import { queryVersion } from './query';
 
 /**
  * tag: npm tag.
@@ -19,17 +20,6 @@ export interface PublishArg {
   ignoreGit?: string;
 }
 
-function checkWorkingTree() {
-  try {
-    if (git.isDirty()) {
-      console.log(chalk.yellow('Please commit your change of your current working tree firstly.'));
-      process.exit(1);
-    }
-  } catch (error) {
-    console.log(chalk.yellow('WARN: No GIT repository found in current cwd.'));
-  }
-}
-
 /**
  * publish a package
  * @param arg { PublishArg }
@@ -41,23 +31,11 @@ export async function publish(arg: PublishArg) {
   }
   const pkgPath = pkg || cwd;
   const pkgJsonPath = path.resolve(pkgPath, 'package.json');
-  console.log(chalk.blueBright('Current version:'), require(pkgJsonPath).version);
+  const currentVersion = require(pkgJsonPath).version;
+  logger.info('Current version:', currentVersion);
   let enterVersion: string = version;
   if (!enterVersion) {
-    try {
-      const res = await inquirer.prompt([
-        {
-          type: 'text',
-          message: 'Please enter version: ',
-          name: 'version',
-        },
-      ]);
-      enterVersion = res.version;
-    } catch (e) {
-      if (e) {
-        console.error(e);
-      }
-    }
+    enterVersion = await queryVersion(currentVersion);
   }
   if (!enterVersion) {
     console.log(chalk.red('Please enter a legal version number.'));
@@ -77,7 +55,6 @@ async function runPublish({ version, distTag, pkg = cwd }) {
     const queue = [
       `npm publish --tag ${distTag}`,
       'git add .',
-      // `git commit -m "Publish: ${version}"`,
       `git commit -m "${renderTpl(commitTpl, 'VERSION', version)}"`,
       pushGit && 'git push',
       autoTag && `git tag ${renderTpl(gitTagTpl, 'VERSION', version)}`,
