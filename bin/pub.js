@@ -11,7 +11,6 @@ commander
   .option('-fp, --from-package', 'Publish a version that defined in package.json')
   .action((command) => {
     const { distTag = 'latest', ver, ignoreGit, fromPackage } = command;
-    console.log(fromPackage)
     publish({ tag: distTag, version: ver, ignoreGit, fromPackage}).catch((e) => console.error(e));
   });
 

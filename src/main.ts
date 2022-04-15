@@ -49,7 +49,8 @@ export async function publish(arg: PublishArg) {
 }
 
 async function runPublish({ version, distTag, pkg = cwd }) {
-  const { pushGit, gitTagTpl, autoTag, commitTpl } = getConfig();
+  const { pushGit, gitTagTpl, autoTag, commitTpl, npmClient: configClient } = getConfig();
+  const npmClient = configClient || 'npm';
   if (version) {
     const pkgPath = path.resolve(pkg, 'package.json');
     const content = JSON.parse(readFileSync(pkgPath, 'utf8'));
@@ -57,7 +58,7 @@ async function runPublish({ version, distTag, pkg = cwd }) {
     const writeContent = prettier.format(JSON.stringify(content), { parser: 'json' });
     writeFileSync(pkgPath, writeContent, 'utf8');
     const queue = [
-      `npm publish --tag ${distTag}`,
+      `${npmClient} publish --tag ${distTag}`,
       'git add .',
       `git commit -m "${renderTpl(commitTpl, 'VERSION', version)}"`,
       pushGit && 'git push',

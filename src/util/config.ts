@@ -5,6 +5,7 @@ export interface ConfigFile {
   pushGit?: boolean;
   autoTag?: boolean;
   commitTpl?: string; // eg: Publish:${COMMIT_MSG}
+  npmClient?: string;
 }
 
 export const defaultConfig: ConfigFile = {

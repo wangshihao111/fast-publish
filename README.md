@@ -2,8 +2,8 @@
 
 A util to publish npm package conveniently.
 
-
 It will do the next steps:
+
 - Modify the version field of you 'package.json'.
 - Commit your changes to remote repository.
 - Tag you repository and push tags to the remote automatically.
@@ -34,6 +34,7 @@ fast-publish --ver 0.1.0
 ```
 
 Available options:
+
 - --dist-tag {string}: The dist-tag of this version.
 - --ver {string}: The version of the publishing package.
 - --ignore-git {boolean}: Ignore detecting whether the working tree is clean
@@ -43,13 +44,15 @@ Available options:
 ### CONFIGURATION
 
 You can `fastPublish` to customize the publish behavior. eg:
+
 ```json
 {
   "fastPublish": {
     "commitTpl": "Publish Version: ${VERSION}",
     "gitTagTpl": "v${VERSION}",
     "autoTag": false,
-    "pushGit": false
+    "pushGit": false,
+    "npmClient": "npm"
   }
 }
 ```
