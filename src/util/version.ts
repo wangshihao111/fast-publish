@@ -12,6 +12,7 @@ export function getNextVersion(version: string, type: 'patch' | 'minor' | 'major
     /(^\d+\.\d+\.\d+)(\-.*)?/.exec(version);
     versionNums = RegExp.$1.split('.').map(Number);
   } else if (!oldIsPre && type === 'pre') {
+    versionNums[2] += 1;
     versionNums.push('alpha', 0);
     return versionNums.join('.');
   } else if (oldIsPre && type === 'pre') {
