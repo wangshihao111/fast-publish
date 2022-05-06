@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 const commander = require('commander');
 const { publish } = require('../lib');
 
@@ -11,7 +12,7 @@ commander
   .option('-fp, --from-package', 'Publish a version that defined in package.json')
   .action((command) => {
     const { distTag = 'latest', ver, ignoreGit, fromPackage } = command;
-    publish({ tag: distTag, version: ver, ignoreGit, fromPackage}).catch((e) => console.error(e));
+    publish({ tag: distTag, version: ver, ignoreGit, fromPackage }).catch((e) => console.error(e));
   });
 
 commander.parse(process.argv);
