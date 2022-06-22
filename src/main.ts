@@ -81,11 +81,12 @@ async function runPublish({ version, distTag, pkg = cwd }) {
             reject();
             console.log(chalk.red(`Run command: [${script}] failed.`));
           } else {
-            console.log(chalk.green(`Run command: [${script}] successfully.`));
+            console.log(chalk.green(`Ran command: [${script}] successfully.`));
             resolve(undefined);
           }
         });
       });
     }
+    console.log(chalk.green(`Successfully published:`), `${content.name}@${version}`);
   }
 }
