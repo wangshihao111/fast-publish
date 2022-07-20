@@ -13,8 +13,8 @@ export function getNextVersion(version: string, type: 'patch' | 'minor' | 'major
     versionNums = RegExp.$1.split('.').map(Number);
   } else if (!oldIsPre && type === 'pre') {
     versionNums[2] += 1;
-    versionNums.push('alpha', 0);
-    return versionNums.join('.');
+    let ver = versionNums.join('.').concat('-alpha.0');
+    return ver;
   } else if (oldIsPre && type === 'pre') {
     (<number[]>versionNums)[versionNums.length - 1]++;
     return versionNums.join('.');
